@@ -6,5 +6,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="@types/babel-core" level="application" />
+    <orderEntry type="library" name="@types/enzyme" level="application" />
+    <orderEntry type="library" name="@types/enzyme-adapter-react-16" level="application" />
+    <orderEntry type="library" name="@types/eslint" level="application" />
+    <orderEntry type="library" name="@types/eslint-plugin-prettier" level="application" />
+    <orderEntry type="library" name="@types/jest" level="application" />
+    <orderEntry type="library" name="@types/material-ui" level="application" />
+    <orderEntry type="library" name="@types/react" level="application" />
   </component>
 </module>
