@@ -1,16 +1,23 @@
 
 const drawerWidth = 240;
 
-const navBarStyles = theme => ({
+const drawerStyles = theme => ({
 	root: {
 		display: 'flex'
-	},
-	grow: {
-		flexGrow: 1
 	},
 	menuButton: {
 		marginLeft: 12,
 		marginRight: 20
+	},
+	hide: {
+		display: 'none'
+	},
+	drawer: {
+		width: drawerWidth,
+		flexShrink: 0
+	},
+	drawerPaper: {
+		width: drawerWidth
 	},
 	drawerHeader: {
 		display: 'flex',
@@ -35,20 +42,9 @@ const navBarStyles = theme => ({
 		}),
 		marginLeft: 0
 	},
-	appBar: {
-		transition: theme.transitions.create(['margin', 'width'], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.leavingScreen
-		})
-	},
-	appBarShift: {
-		width: `calc(100% - ${drawerWidth}px)`,
-		marginLeft: drawerWidth,
-		transition: theme.transitions.create(['margin', 'width'], {
-			easing: theme.transitions.easing.easeOut,
-			duration: theme.transitions.duration.enteringScreen
-		})
+	image: {
+		margin: '1em auto'
 	}
 });
 
-export default navBarStyles;
+export default drawerStyles;

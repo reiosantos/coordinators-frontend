@@ -152,6 +152,4 @@ class SignUp extends React.Component {
 const mapStateToProps = state => ({ auth: state.authReducer });
 const mapDispatchToProps = dispatch => ({ dispatch });
 
-export { SignUp as SignUpTest };
-
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
