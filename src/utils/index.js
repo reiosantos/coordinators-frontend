@@ -1,5 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
+import progressAction from '../actions/progress';
+import snackAction from '../actions/snack';
 import { AUTH_TOKEN, PROPERTY_USER } from '../constants';
 
 export const formatDate = (dateStr) => {
@@ -14,7 +16,7 @@ export const addToken = () => {
 	const TOKEN = localStorage.getItem(AUTH_TOKEN);
 
 	if (TOKEN !== null) {
-		axios.defaults.headers.common.Authorization = `JWT ${TOKEN}`;
+		axios.defaults.headers.common.Authorization = `Token ${TOKEN}`;
 	}
 };
 
@@ -45,4 +47,16 @@ export const getCurrentUser = () => {
 	}
 };
 
-export const functionPlaceholder = () => {};
+export const dispatchError = (error, dispatch) => {
+	const { response: { data } } = error;
+	let message = '';
+	if (data.errors) {
+		data.errors.forEach((err) => {
+			message += `${err.message}, `;
+		});
+	}
+	dispatch(progressAction(false, false));
+	dispatch(snackAction(data.message || message, true, 'error'));
+};
+
+export const functionPlaceholder = () => () => {};

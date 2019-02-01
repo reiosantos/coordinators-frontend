@@ -2,7 +2,7 @@ import Hidden from '@material-ui/core/Hidden/Hidden';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button/Button';
@@ -17,7 +17,21 @@ import NavDrawer from '../drawer';
 class NavBar extends React.Component {
 	
 	state = {
-		open: false
+		open: false,
+		pathname: ''
+	};
+	
+	componentDidMount() {
+		this.updateActiveLink(this.props);
+	}
+	
+	componentWillReceiveProps(nextProps, nextContext) {
+		this.updateActiveLink(nextProps);
+	}
+	
+	updateActiveLink= (props) => {
+		const { location: { pathname } } = props;
+		this.setState({ pathname });
 	};
 	
 	handleDrawerOpen = () => {
@@ -30,7 +44,7 @@ class NavBar extends React.Component {
 	
 	render() {
 		const { classes, user, component: Component } = this.props;
-		const { open } = this.state;
+		const { open, pathname } = this.state;
 		
 		return (
 			<div className={classes.root}>
@@ -68,7 +82,7 @@ class NavBar extends React.Component {
 					</Toolbar>
 				</AppBar>
 				
-				<NavDrawer handleDrawerClose={this.handleDrawerClose} open={open} />
+				<NavDrawer pathname={pathname} handleDrawerClose={this.handleDrawerClose} open={open} />
 				
 				<main className={classNames(classes.content, { [classes.contentShift]: open })}>
 					<div className={classes.drawerHeader} />
@@ -88,4 +102,4 @@ NavBar.propTypes = {
 
 const mapStateToProps = state => ({ ...state, user: state.authReducer.user });
 
-export default connect(mapStateToProps)(withStyles(navBarStyles)(NavBar));
+export default connect(mapStateToProps)(withRouter(withStyles(navBarStyles)(NavBar)));

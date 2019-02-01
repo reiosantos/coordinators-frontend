@@ -27,7 +27,7 @@ const navigationPeople = [
 
 const NavDrawer = (props) => {
 	const {
-		open, classes, theme, handleDrawerClose
+		open, classes, theme, handleDrawerClose, pathname
 	} = props;
 	return (
 		<Drawer
@@ -46,7 +46,14 @@ const NavDrawer = (props) => {
 			<Divider />
 			<List>
 				{navigationMain.map(menu => (
-					<ListItem button key={menu.label} component={Link} to={menu.link} replace>
+					<ListItem
+						className={pathname === menu.link ? 'active' : ''}
+						button
+						key={menu.label}
+						component={Link}
+						to={menu.link}
+						replace
+					>
 						<Icon>{menu.icon}</Icon>
 						<ListItemText primary={menu.label} />
 					</ListItem>
@@ -55,7 +62,14 @@ const NavDrawer = (props) => {
 			<Divider />
 			<List>
 				{navigationPeople.map(menu => (
-					<ListItem button key={menu.label} component={Link} to={menu.link} replace>
+					<ListItem
+						className={pathname === menu.link ? 'active' : ''}
+						button
+						key={menu.label}
+						component={Link}
+						to={menu.link}
+						replace
+					>
 						<Icon>{menu.icon}</Icon>
 						<ListItemText primary={menu.label} />
 					</ListItem>
@@ -67,6 +81,7 @@ const NavDrawer = (props) => {
 
 NavDrawer.propTypes = {
 	classes: PropTypes.shape().isRequired,
+	pathname: PropTypes.string.isRequired,
 	theme: PropTypes.shape().isRequired,
 	handleDrawerClose: PropTypes.func.isRequired,
 	open: PropTypes.bool.isRequired

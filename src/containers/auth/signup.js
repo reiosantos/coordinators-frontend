@@ -74,7 +74,7 @@ class SignUp extends React.Component {
 		const { dispatch } = this.props;
 
 		if (!this.formHasError()) {
-			dispatch(authAction(this.state, API.SIGNUP_URL));
+			dispatch(authAction(this.state, API.POST_GET_USERS_URL));
 			this.setState({ loader: { loading: true } });
 		}
 	};
