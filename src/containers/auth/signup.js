@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { authAction } from '../../actions/auth';
-import SignUpForm from '../../components/auth/signupForm';
-import CircularIntegration from '../../components/progress';
-import CustomizedSnackBar from '../../components/snackBar';
+import SignUpForm from '../../components/main/auth/signupForm';
+import CircularIntegration from '../../components/reusable/progress';
+import CustomizedSnackBar from '../../components/reusable/snackBar';
 import { API } from '../../constants';
 import { capitalizeWord, sleep } from '../../utils';
 import { validatePassword, validatePhoneNumber, validateUsername } from '../../utils/validators';

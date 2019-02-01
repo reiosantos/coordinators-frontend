@@ -16,6 +16,15 @@ export const Authenticate = {
 			return false;
 		}
 	},
+	userDetails() {
+		try {
+			let token = localStorage.getItem(AUTH_TOKEN);
+			token = jwtDecode(token);
+			return token || {};
+		} catch (e) {
+			return {};
+		}
+	},
 	logout(dispatch) {
 		localStorage.clear();
 		dispatch(logoutActionCreator());

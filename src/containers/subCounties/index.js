@@ -2,30 +2,33 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import {
-	addConstituencyAction,
-	deleteConstituencyAction,
-	fetchConstituencyAction, searchConstituencies
-} from '../../actions/contituencies';
+import { fetchConstituencyAction } from '../../actions/contituencies';
 import { fetchRepresentativeAction } from '../../actions/representatives';
+import {
+	addSubCountyAction, deleteSubCountyAction,
+	fetchSubCountyAction,
+	searchSubCounties
+} from '../../actions/subCounties';
+import SubCountyComponent from '../../components/main/subCounty';
 import AlertDialog from '../../components/reusable/alert';
-import ConstituencyComponent from '../../components/main/constituency';
 import { API } from '../../constants';
 import constituencyStyles from '../../static/styles/constituencyStyles';
 import { formatUrl } from '../../utils';
 import { validateUsername } from '../../utils/validators';
 
-class Constituency extends React.Component {
+class SubCounty extends React.Component {
 	
 	constructor(props) {
 		super(props);
 		this.state = {
 			constituencyId: '',
+			subCountyId: '',
 			representativeId: '',
-			constituencyName: '',
+			subCountyName: '',
 			errors: {
 				representativeId: '',
-				constituencyName: ''
+				constituencyId: '',
+				subCountyName: ''
 			},
 			alert: {
 				message: '',
@@ -45,35 +48,40 @@ class Constituency extends React.Component {
 		const { dispatch } = this.props;
 		dispatch(fetchConstituencyAction());
 		dispatch(fetchRepresentativeAction());
+		dispatch(fetchSubCountyAction());
 	}
 
 	onSubmit = (event) => {
 		event.preventDefault();
 		const { dispatch } = this.props;
 		const {
-			representativeId, constituencyName, constituencyId, switchToggle: { checked }
+			representativeId, subCountyName, constituencyId, subCountyId, switchToggle: { checked }
 		} = this.state;
 		
-		if (checked && !constituencyId) {
+		if (checked && !subCountyId) {
 			this.setState({
 				shouldOpenAlert: true,
 				alert: {
-					message: 'To create a new constituency, you must disable editing first.',
+					message: 'To create a new sub county, you must disable editing first.',
 					title: 'Adding a new record'
 				}
 			});
 			return;
 		}
 		const URL = checked
-			? formatUrl(API.PUT_DELETE_GET_CONSTITUENCIES_URL, [constituencyId])
-			: API.POST_GET_CONSTITUENCIES_URL;
+			? formatUrl(API.PUT_DELETE_GET_SUB_COUNTY_URL, [subCountyId])
+			: API.POST_GET_SUB_COUNTY_URL;
 		
 		const METHOD = checked ? 'PUT' : 'POST';
-		const data = { representativeId: representativeId.trim() || undefined, constituencyName };
+		const data = {
+			representativeId: representativeId.trim() || undefined, subCountyName, constituencyId
+		};
 		
 		if (!this.formHasError()) {
-			dispatch(addConstituencyAction(data, URL, METHOD));
-			this.setState({ representativeId: '', constituencyName: '', constituencyId: '' });
+			dispatch(addSubCountyAction(data, URL, METHOD));
+			this.setState({
+				representativeId: '', subCountyName: '', constituencyId: '', subCountyId: ''
+			});
 		}
 	};
 	
@@ -94,15 +102,16 @@ class Constituency extends React.Component {
 	};
 	
 	handleSwitch = (event) => {
-		const constituency = { ...this.state };
+		const record = { ...this.state };
 		
 		if (!event.target.checked) {
-			constituency.representativeId = '';
-			constituency.constituencyId = null;
-			constituency.constituencyName = '';
+			record.representativeId = '';
+			record.constituencyId = '';
+			record.subCountyId = null;
+			record.subCountyName = '';
 		}
 		this.setState({
-			...constituency,
+			...record,
 			switchToggle: {
 				checked: event.target.checked,
 				value: event.target.checked,
@@ -114,8 +123,8 @@ class Constituency extends React.Component {
 	};
 	
 	formHasError = () => {
-		const { constituencyName } = this.state;
-		return !!validateUsername(constituencyName);
+		const { subCountyName } = this.state;
+		return !!validateUsername(subCountyName);
 	};
 	
 	onClickDelete = value => (event) => {
@@ -123,7 +132,7 @@ class Constituency extends React.Component {
 		this.setState({
 			alert: {
 				message: 'Are you sure you want to delete this Record?',
-				title: 'Delete Constituency'
+				title: 'Delete SubCounty'
 			},
 			shouldOpenAlert: true,
 			deleteId: value
@@ -136,8 +145,8 @@ class Constituency extends React.Component {
 		
 		if (!value) return;
 		dispatch(
-			deleteConstituencyAction(
-				formatUrl(API.PUT_DELETE_GET_CONSTITUENCIES_URL, [value])
+			deleteSubCountyAction(
+				formatUrl(API.PUT_DELETE_GET_SUB_COUNTY_URL, [value])
 			)
 		);
 	};
@@ -152,35 +161,40 @@ class Constituency extends React.Component {
 		
 		if (checked) {
 			this.setState({
-				constituencyId: value.id,
-				representativeId: value.Representative ? value.Representative.id : '',
-				constituencyName: value.constituencyName
+				subCountyId: value.id,
+				subCountyName: value.subCountyName,
+				constituencyId: value.Constituency ? value.Constituency.id : '',
+				representativeId: value.Representative ? value.Representative.id : ''
 			});
 		}
 	};
 	
 	onSearch = (value) => {
 		const { dispatch } = this.props;
-		dispatch(searchConstituencies(value));
+		dispatch(searchSubCounties(value));
 	};
 	
 	render() {
-		const { classes, representatives, constituencies } = this.props;
 		const {
-			errors, representativeId, constituencyName,
+			classes, representatives, constituencies, subCounties
+		} = this.props;
+		const {
+			errors, representativeId, subCountyName, constituencyId,
 			switchToggle, shouldOpenAlert, deleteId, alert
 		} = this.state;
 		
-		const headers = ['Constituency Name', 'Representative', 'SubCounties'];
+		const headers = ['SubCounty Name', 'Constituency', 'Representative', 'Parishes'];
 		
-		const body = constituencies.map((record) => {
-			const { Representative, SubCounties } = record;
-			
+		const body = subCounties.map((record) => {
+			const { Representative, Constituency, Parishes } = record;
 			const representativeName = Representative
 				? `${Representative.firstName} ${Representative.lastName}`
 				: undefined;
 			
-			return [record, record.id, record.constituencyName, representativeName, SubCounties.length];
+			return [
+				record, record.id, record.subCountyName,
+				Constituency.constituencyName, representativeName, Parishes.length
+			];
 		});
 		
 		return (
@@ -192,14 +206,16 @@ class Constituency extends React.Component {
 					onAccept={this.onAcceptClickDelete(deleteId)}
 					onDecline={this.onDeclineClickDelete}
 				/>
-				<ConstituencyComponent
+				<SubCountyComponent
 					classes={classes}
 					errors={errors}
 					switchToggle={switchToggle}
-					constituencyName={constituencyName}
+					subCountyName={subCountyName}
 					representativeId={representativeId}
 					representatives={representatives}
 					constituencies={constituencies}
+					subCounties={subCounties}
+					constituencyId={constituencyId}
 					tableBody={body}
 					headers={headers}
 					handleSwitch={this.handleSwitch}
@@ -216,21 +232,24 @@ class Constituency extends React.Component {
 	}
 }
 
-Constituency.propTypes = {
+SubCounty.propTypes = {
 	classes: PropTypes.shape().isRequired,
 	representatives: PropTypes.arrayOf(PropTypes.shape()),
 	constituencies: PropTypes.arrayOf(PropTypes.shape()),
+	subCounties: PropTypes.arrayOf(PropTypes.shape()),
 	dispatch: PropTypes.func.isRequired
 };
 
-Constituency.defaultProps = {
+SubCounty.defaultProps = {
 	representatives: [],
-	constituencies: []
+	constituencies: [],
+	subCounties: []
 };
 
-const mapStateToProps = ({ representativeReducer, constituencyReducer }) => ({
+const mapStateToProps = ({ representativeReducer, constituencyReducer, subCountyReducer }) => ({
 	representatives: representativeReducer.representatives,
-	constituencies: constituencyReducer.constituencies
+	constituencies: constituencyReducer.constituencies,
+	subCounties: subCountyReducer.subCounties
 });
 
-export default connect(mapStateToProps)(withStyles(constituencyStyles)(Constituency));
+export default connect(mapStateToProps)(withStyles(constituencyStyles)(SubCounty));

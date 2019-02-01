@@ -11,7 +11,7 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
 
 	const { user, message, errors } = action.payload || {};
-	const { contact, name, username } = user || initialState.user;
+	const { contact, name, username } = user || state.user;
 	const userObject = {
 		phoneNumber: contact,
 		fullNames: name,
@@ -19,7 +19,7 @@ const authReducer = (state = initialState, action) => {
 	};
 
 	switch (action.type) {
-		case ACTION_TYPE.SIGN_UP:
+		case ACTION_TYPE.LOGIN:
 			return {
 				...state,
 				user: userObject,

@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import snackAction from '../../actions/snack';
 import Constituency from '../../containers/constituencies';
+import Parish from '../../containers/parishes';
+import SubCounty from '../../containers/subCounties';
+import Village from '../../containers/villages';
 import Home from '../home';
-import NavBar from '../navBar';
-import CircularIntegration from '../progress';
-import CustomizedSnackBar from '../snackBar';
+import NavBar from '../reusable/navBar';
+import CircularIntegration from '../reusable/progress';
+import CustomizedSnackBar from '../reusable/snackBar';
 
 class App extends React.Component {
 	
@@ -31,8 +34,11 @@ class App extends React.Component {
 			case 'constituencies':
 				return Constituency;
 			case 'sub-counties':
+				return SubCounty;
 			case 'parishes':
+				return Parish;
 			case 'villages':
+				return Village;
 			case 'representatives':
 			case 'users':
 			default:

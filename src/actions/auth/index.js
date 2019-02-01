@@ -4,7 +4,7 @@ import { AUTH_TOKEN, PROPERTY_USER } from '../../constants';
 import { addToken } from '../../utils';
 
 export const signUpActionCreator = data => ({
-	type: ACTION_TYPE.SIGN_UP,
+	type: ACTION_TYPE.LOGIN,
 	payload: data
 });
 
