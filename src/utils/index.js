@@ -9,7 +9,7 @@ export const formatDate = (dateStr) => {
 		weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 	});
 	const date = new Date(dateStr);
-	return moment(date).format('ddd, MMM Do YYYY');
+	return moment(date).format('YYYY-MM-DD');
 };
 
 export const addToken = () => {
@@ -60,3 +60,15 @@ export const dispatchError = (error, dispatch) => {
 };
 
 export const functionPlaceholder = () => () => {};
+
+export const isRepresentativeAvailable = (representative = {}) => {
+	const {
+		SubCounty, Constituency, Parish, Village
+	} = representative;
+	if (!SubCounty && !Constituency && !Parish && !Village) return true;
+	if (!SubCounty && !Constituency && !Parish) return true;
+	if (Village) {
+		if (Village.representativeId === representative.id) return false;
+	}
+	return !(SubCounty || Constituency || Parish);
+};

@@ -63,7 +63,7 @@ class Village extends React.Component {
 			this.setState({
 				shouldOpenAlert: true,
 				alert: {
-					message: 'To create a new sub county, you must disable editing first.',
+					message: 'To create a new Village, you must disable editing first.',
 					title: 'Adding a new record'
 				}
 			});
@@ -161,7 +161,7 @@ class Village extends React.Component {
 		if (checked) {
 			this.setState({
 				villageId: value.id,
-				parishName: value.parishName,
+				villageName: value.villageName,
 				parishId: value.Parish ? value.Parish.id : '',
 				representativeId: value.Representative ? value.Representative.id : ''
 			});

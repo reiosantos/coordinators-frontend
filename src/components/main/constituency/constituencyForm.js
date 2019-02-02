@@ -13,6 +13,7 @@ import Edit from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { isRepresentativeAvailable } from '../../../utils';
 
 const ConstituencyForm = (
 	{
@@ -69,11 +70,24 @@ const ConstituencyForm = (
 					<MenuItem value=""><em>None</em></MenuItem>
 					{
 						representatives.map(
-							rep => (
-								<MenuItem key={rep.id} value={rep.id}>
-									{`${rep.firstName} ${rep.lastName}`}
-								</MenuItem>
-							)
+							(rep) => {
+								if (representativeId) {
+									return (
+										<MenuItem key={rep.id} value={rep.id}>
+											{`${rep.firstName} ${rep.lastName} - From - ${rep.Village.villageName}`}
+										</MenuItem>
+									);
+								}
+								const representative = isRepresentativeAvailable(rep);
+								if (representative) {
+									return (
+										<MenuItem key={rep.id} value={rep.id}>
+											{`${rep.firstName} ${rep.lastName} - From - ${rep.Village.villageName}`}
+										</MenuItem>
+									);
+								}
+								return null;
+							}
 						)
 					}
 				</Select>

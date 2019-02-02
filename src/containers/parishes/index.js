@@ -63,7 +63,7 @@ class Parish extends React.Component {
 			this.setState({
 				shouldOpenAlert: true,
 				alert: {
-					message: 'To create a new sub county, you must disable editing first.',
+					message: 'To create a new parish, you must disable editing first.',
 					title: 'Adding a new record'
 				}
 			});

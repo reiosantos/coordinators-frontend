@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import snackAction from '../../actions/snack';
 import Constituency from '../../containers/constituencies';
 import Parish from '../../containers/parishes';
+import Representative from '../../containers/representatives';
 import SubCounty from '../../containers/subCounties';
 import Village from '../../containers/villages';
 import Home from '../home';
@@ -40,6 +41,7 @@ class App extends React.Component {
 			case 'villages':
 				return Village;
 			case 'representatives':
+				return Representative;
 			case 'users':
 			default:
 				return Home;

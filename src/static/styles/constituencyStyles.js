@@ -22,6 +22,10 @@ const constituencyStyles = theme => ({
 	json: {
 		display: 'flex',
 		justifyContent: 'flex-start'
+	},
+	instructions: {
+		marginTop: theme.spacing.unit,
+		marginBottom: theme.spacing.unit
 	}
 });
 

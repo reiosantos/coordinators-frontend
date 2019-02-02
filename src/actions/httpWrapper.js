@@ -15,12 +15,14 @@ class Http {
 	static postAndPut = (URL, requestData, dispatch, callbackAction, method = 'POST') => {
 		addToken();
 		
-		let instance = axios.post(URL, { ...requestData });
+		let instance;
 		
 		dispatch(progressAction(true, false));
 		
 		if (method.trim().toUpperCase() === 'PUT') {
 			instance = axios.put(URL, { ...requestData });
+		} else {
+			instance = axios.post(URL, { ...requestData });
 		}
 		return instance
 			.then(response => response.data)
