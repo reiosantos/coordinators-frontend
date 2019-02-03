@@ -63,7 +63,7 @@ class NavBar extends React.Component {
 						</IconButton>
 						<Hidden smDown>
 							<Typography variant="h4" color="inherit" className={classes.grow} noWrap>
-								<span>Coordinators</span>
+								<span>National Database</span>
 							</Typography>
 							<Button color="inherit" component={Link} to="/" replace>
 								<i className="fa fa-home" />

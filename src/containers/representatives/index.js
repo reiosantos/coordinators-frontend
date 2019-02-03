@@ -16,21 +16,14 @@ import AlertDialog from '../../components/reusable/alert';
 import { API } from '../../constants';
 import constituencyStyles from '../../static/styles/constituencyStyles';
 import * as Utils from '../../utils';
-import {
-	validateDateOfBirth,
-	validateEmail,
-	validatePhoneNumber,
-	validateUsername
-} from '../../utils/validators';
+import { validatePhoneNumber, validateUsername } from '../../utils/validators';
 
 class Representative extends React.Component {
 	
 	validators = {
 		validateFirstName: validateUsername,
 		validateLastName: validateUsername,
-		validateContact: validatePhoneNumber,
-		validateEmail,
-		validateDateOfBirth
+		validateContact: validatePhoneNumber
 	};
 	
 	constructor(props) {
@@ -46,15 +39,12 @@ class Representative extends React.Component {
 			firstName: '',
 			lastName: '',
 			contact: '',
-			email: '',
-			dateOfBirth: '1970-01-01',
+			nin: '',
 			errors: {
 				villageId: '',
 				firstName: '',
 				lastName: '',
-				contact: '',
-				email: '',
-				dateOfBirth: ''
+				contact: ''
 			},
 			alert: {
 				message: '',
@@ -109,8 +99,7 @@ class Representative extends React.Component {
 			firstName: '',
 			lastName: '',
 			contact: '',
-			email: '',
-			dateOfBirth: '1970-01-01',
+			nin: '',
 			subCounties: [],
 			parishes: [],
 			villages: []
@@ -122,7 +111,7 @@ class Representative extends React.Component {
 		const { dispatch } = this.props;
 		const {
 			representativeId, villageId, switchToggle: { checked },
-			firstName, lastName, contact, email, dateOfBirth
+			firstName, lastName, contact, nin
 		} = this.state;
 		
 		if (checked && !representativeId) {
@@ -141,7 +130,7 @@ class Representative extends React.Component {
 		
 		const METHOD = checked ? 'PUT' : 'POST';
 		const data = {
-			villageId: villageId.trim(), firstName, lastName, contact, email, dateOfBirth
+			villageId: villageId.trim(), firstName, lastName, contact, nin
 		};
 		
 		if (!this.formHasError()) {
@@ -153,19 +142,24 @@ class Representative extends React.Component {
 				firstName: '',
 				lastName: '',
 				contact: '',
-				email: '',
-				dateOfBirth: '1970-01-01'
+				nin: ''
 			});
 		}
 	};
 	
 	onChange = name => (event) => {
 		const { value } = event.target;
+		let shouldValidate = true;
+		if (name === 'nin') {
+			shouldValidate = false;
+		}
 		this.setState(prevState => ({
 			[name]: value,
 			errors: {
 				...prevState.errors,
-				[name]: this.validators[`validate${Utils.capitalizeWord(name)}`](value)
+				[name]: shouldValidate
+					? this.validators[`validate${Utils.capitalizeWord(name)}`](value)
+					: ''
 			}
 		}));
 	};
@@ -235,8 +229,7 @@ class Representative extends React.Component {
 				firstName: '',
 				lastName: '',
 				contact: '',
-				email: '',
-				dateOfBirth: '1970-01-01'
+				nin: ''
 			});
 		}
 		this.setState({
@@ -319,8 +312,7 @@ class Representative extends React.Component {
 				firstName: value.firstName,
 				lastName: value.lastName,
 				contact: value.contact,
-				email: value.email,
-				dateOfBirth: Utils.formatDate(value.dateOfBirth),
+				nin: value.nin,
 				subCounties,
 				parishes,
 				villages
@@ -339,11 +331,11 @@ class Representative extends React.Component {
 			errors, representativeId, villageId, constituencyId, subCountyId, parishId,
 			switchToggle, shouldOpenAlert, deleteId, alert,
 			constituencies, subCounties, parishes, villages, activeStep,
-			firstName, lastName, contact, email, dateOfBirth
+			firstName, lastName, contact, nin
 		} = this.state;
 		
 		const steps = ['National Details', 'personal information'];
-		const headers = ['First_Name', 'Last_Name', 'Contact', 'Date_Of_Birth', 'email', 'village'];
+		const headers = ['First_Name', 'Last_Name', 'Contact', 'NIN', 'village'];
 		
 		const body = representatives.map((record) => {
 			const { Village } = record;
@@ -351,7 +343,7 @@ class Representative extends React.Component {
 			
 			return [
 				record, record.id, record.firstName, record.lastName, record.contact,
-				Utils.formatDate(record.dateOfBirth), record.email, villageName
+				record.nin, villageName
 			];
 		});
 		
@@ -381,8 +373,7 @@ class Representative extends React.Component {
 					firstName={firstName}
 					lastName={lastName}
 					contact={contact}
-					email={email}
-					dateOfBirth={dateOfBirth}
+					nin={nin}
 					
 					representativeId={representativeId}
 					representatives={representatives}

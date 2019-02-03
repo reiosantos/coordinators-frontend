@@ -2,7 +2,7 @@
 export const AUTH_TOKEN = 'auth_token';
 export const PROPERTY_USER = 'user';
 
-export const BASE_URL = 'http://localhost:5002/api/v1';
+export const BASE_URL = `${process.env.REACT_APP_BASE_URL}/api/v1`;
 
 export const API = {
 	LOGIN_URL: `${BASE_URL}/login`,

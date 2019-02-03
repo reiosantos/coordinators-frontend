@@ -6,7 +6,10 @@ const progressStyles = theme => ({
 		width: '100%',
 		height: '100%',
 		top: 0,
-		zIndex: 1000,
+		bottom: 0,
+		left: 0,
+		right: 0,
+		zIndex: 2000,
 		backgroundColor: 'rgba(105, 105, 105, 0.2)'
 	},
 	wrapper: {

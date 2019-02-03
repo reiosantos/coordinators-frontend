@@ -36,7 +36,7 @@ const Home = ({ classes }) => (
 	<div className={classes.root}>
 		<Typography color="inherit" align="center" variant="h2" marked="center">Upgrade your Governance</Typography>
 		<Typography color="inherit" align="center" variant="h5" className={classes.h5}>
-			<span>Enjoy 70% secret offers of the silent majority.</span>
+			<span>We are the change that we badly need!</span>
 		</Typography>
 		<Typography variant="body2" color="inherit" className={classes.more}>
 			<>Lets change the cord</>

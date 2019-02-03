@@ -51,6 +51,11 @@ export const getCurrentUser = () => {
 };
 
 export const dispatchError = (error, dispatch) => {
+	dispatch(progressAction(false, false));
+	
+	if (!error.response || !error.response.data) {
+		return dispatch(snackAction('Sorry, we were unable to contact the server.'));
+	}
 	const { response: { data } } = error;
 	let message = '';
 	if (data.errors) {
@@ -58,8 +63,8 @@ export const dispatchError = (error, dispatch) => {
 			message += `${err.message}, `;
 		});
 	}
-	dispatch(progressAction(false, false));
 	dispatch(snackAction(data.message || message, true, 'error'));
+	return null;
 };
 
 export const functionPlaceholder = () => () => {};

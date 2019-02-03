@@ -10,6 +10,7 @@ import SubCounty from '../../containers/subCounties';
 import User from '../../containers/users';
 import Village from '../../containers/villages';
 import Home from '../home';
+import { Authenticate } from '../privateRoute';
 import NavBar from '../reusable/navBar';
 import CircularIntegration from '../reusable/progress';
 import CustomizedSnackBar from '../reusable/snackBar';
@@ -55,7 +56,15 @@ class App extends React.Component {
 		const { snack, progress: loader } = this.props;
 		const { open, message, variant } = snack;
 		
+		const defaultRoute = '/';
 		pathname = pathname.replace(/\//g, '').trim();
+		
+		const user = Authenticate.userDetails();
+		if (!user.isSuperUser && pathname === 'users') {
+			window.location.assign(defaultRoute);
+			return null;
+		}
+		
 		return (
 			<Fragment>
 				<CircularIntegration {...loader} />
@@ -74,7 +83,10 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-	location: PropTypes.shape().isRequired
+	location: PropTypes.shape().isRequired,
+	snack: PropTypes.shape().isRequired,
+	progress: PropTypes.shape().isRequired,
+	dispatch: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

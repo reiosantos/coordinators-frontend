@@ -9,7 +9,7 @@ import React, { Fragment } from 'react';
 const StepTwoForm = (
 	{
 		errors, classes, formHasError, onChange,
-		firstName, lastName, contact, email, dateOfBirth
+		firstName, lastName, contact, nin
 	}
 ) => (
 	<Fragment>
@@ -62,34 +62,19 @@ const StepTwoForm = (
 				{errors.contact}
 			</FormHelperText>
 		</FormControl>
-		<FormControl margin="normal" required fullWidth error={!!errors.email}>
-			<InputLabel htmlFor="email">Email</InputLabel>
+		<FormControl margin="normal" required fullWidth error={!!errors.nin}>
+			<InputLabel htmlFor="nin">NIN</InputLabel>
 			<Input
-				value={email}
-				type="email"
-				onChange={onChange('email')}
-				id="email"
-				name="email"
-				autoComplete="email"
+				value={nin}
+				type="nin"
+				onChange={onChange('nin')}
+				id="nin"
+				name="nin"
+				autoComplete="nin"
 				autoFocus
 			/>
-			<FormHelperText error={!!errors.email}>
-				{errors.email}
-			</FormHelperText>
-		</FormControl>
-		<FormControl margin="normal" required fullWidth error={!!errors.dateOfBirth}>
-			<InputLabel htmlFor="dateOfBirth">Date Of Birth</InputLabel>
-			<Input
-				value={dateOfBirth}
-				type="date"
-				onChange={onChange('dateOfBirth')}
-				id="dateOfBirth"
-				name="dateOfBirth"
-				autoComplete="dateOfBirth"
-				autoFocus
-			/>
-			<FormHelperText error={!!errors.dateOfBirth}>
-				{errors.dateOfBirth}
+			<FormHelperText error={!!errors.nin}>
+				{errors.nin}
 			</FormHelperText>
 		</FormControl>
 	</Fragment>
@@ -105,8 +90,7 @@ StepTwoForm.propTypes = {
 	firstName: PropTypes.string.isRequired,
 	lastName: PropTypes.string.isRequired,
 	contact: PropTypes.string.isRequired,
-	email: PropTypes.string.isRequired,
-	dateOfBirth: PropTypes.string.isRequired
+	nin: PropTypes.string.isRequired
 };
 
 export default StepTwoForm;

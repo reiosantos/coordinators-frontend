@@ -37,7 +37,12 @@ export const authAction = (requestData, URL) => (dispatch) => {
 			dispatch(signUpActionCreator(response));
 		})
 		.catch((error) => {
+			if (!error.response || !error.response.data) {
+				return dispatch(signUpActionCreator({
+					errors: { network: 'Sorry, we were unable to contact the server.' }
+				}));
+			}
 			const { response: { data } } = error;
-			dispatch(signUpActionCreator(data || {}));
+			return dispatch(signUpActionCreator(data || {}));
 		});
 };

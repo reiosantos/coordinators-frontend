@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Authenticate } from '../../privateRoute';
 import DisplayTable from '../../reusable/displayTable';
 import DisplayTree from '../../reusable/displayTree';
 import SearchBar from '../../reusable/searchBar';
@@ -23,6 +24,14 @@ const ParishComponent = (props) => {
 		representatives, tableBody, handleSwitch, switchToggle, onSearch, subCountyId, isAvailable
 	} = props;
 	
+	const user = Authenticate.userDetails();
+	const shouldShow = user.isAdmin || user.isSuperUser;
+	const gridProps = shouldShow ? {
+		xs: 12, sm: 12, md: 8, lg: 8
+	} : {
+		xs: 12, sm: 12, md: 12, lg: 12
+	};
+	
 	return (
 		<MainCard>
 			<div className={classes.root}>
@@ -32,29 +41,35 @@ const ParishComponent = (props) => {
 							{'Parishes'}
 						</Typography>
 					</Grid>
-					<Grid item xs={12} sm={12} md={4} lg={4} />
-					<Grid item xs={12} sm={12} md={8} lg={8}>
+					
+					{shouldShow ? <Grid item xs={12} sm={12} md={4} lg={4} /> : ''}
+					
+					<Grid item {...gridProps}>
 						<SearchBar onRequestSearch={onSearch} />
 					</Grid>
-					<Grid item xs={12} sm={12} md={4} lg={4}>
-						<ParishForm
-							handleSwitch={handleSwitch}
-							switchToggle={switchToggle}
-							errors={errors}
-							classes={classes}
-							parishName={parishName}
-							isAvailable={isAvailable}
-							onSubmit={onSubmit}
-							subCounties={subCounties}
-							subCountyId={subCountyId}
-							representativeId={representativeId}
-							formHasError={formHasError}
-							onChange={onChange}
-							handleSelectChange={handleSelectChange}
-							representatives={representatives}
-						/>
-					</Grid>
-					<Grid item xs={12} sm={12} md={8} lg={8}>
+					{
+						shouldShow ? (
+							<Grid item xs={12} sm={12} md={4} lg={4}>
+								<ParishForm
+									handleSwitch={handleSwitch}
+									switchToggle={switchToggle}
+									errors={errors}
+									classes={classes}
+									parishName={parishName}
+									isAvailable={isAvailable}
+									onSubmit={onSubmit}
+									subCounties={subCounties}
+									subCountyId={subCountyId}
+									representativeId={representativeId}
+									formHasError={formHasError}
+									onChange={onChange}
+									handleSelectChange={handleSelectChange}
+									representatives={representatives}
+								/>
+							</Grid>
+						) : ''
+					}
+					<Grid item {...gridProps}>
 						<Paper className={classNames(classes.paper, 'json-tree')}>
 							<TabbedPage
 								treeComponent={() => (

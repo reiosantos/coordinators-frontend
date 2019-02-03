@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Authenticate } from '../../privateRoute';
 import DisplayTable from '../../reusable/displayTable';
 import DisplayTree from '../../reusable/displayTree';
 import SearchBar from '../../reusable/searchBar';
@@ -23,8 +24,16 @@ const RepresentativeComponent = (props) => {
 		tableBody, handleSwitch, switchToggle, onSearch, representatives,
 		constituencies, constituencyId, subCounties, subCountyId, parishes, parishId,
 		steps, activeStep, handleBack, handleNext, handleReset,
-		firstName, lastName, contact, email, dateOfBirth
+		firstName, lastName, contact, nin
 	} = props;
+	
+	const user = Authenticate.userDetails();
+	const shouldShow = user.isAdmin || user.isSuperUser;
+	const gridProps = shouldShow ? {
+		xs: 12, sm: 12, md: 8, lg: 8
+	} : {
+		xs: 12, sm: 12, md: 12, lg: 12
+	};
 	
 	return (
 		<MainCard>
@@ -35,41 +44,47 @@ const RepresentativeComponent = (props) => {
 							{'Representatives'}
 						</Typography>
 					</Grid>
-					<Grid item xs={12} sm={12} md={4} lg={4} />
-					<Grid item xs={12} sm={12} md={8} lg={8}>
+					
+					{shouldShow ? <Grid item xs={12} sm={12} md={4} lg={4} /> : ''}
+					
+					<Grid item {...gridProps}>
 						<SearchBar onRequestSearch={onSearch} />
 					</Grid>
-					<Grid item xs={12} sm={12} md={4} lg={4}>
-						<RepresentativeForm
-							steps={steps}
-							activeStep={activeStep}
-							handleBack={handleBack}
-							handleNext={handleNext}
-							handleReset={handleReset}
-							constituencies={constituencies}
-							constituencyId={constituencyId}
-							subCounties={subCounties}
-							subCountyId={subCountyId}
-							parishes={parishes}
-							parishId={parishId}
-							villages={villages}
-							villageId={villageId}
-							firstName={firstName}
-							lastName={lastName}
-							contact={contact}
-							email={email}
-							dateOfBirth={dateOfBirth}
-							handleSwitch={handleSwitch}
-							switchToggle={switchToggle}
-							errors={errors}
-							classes={classes}
-							onSubmit={onSubmit}
-							formHasError={formHasError}
-							onChange={onChange}
-							handleSelectChange={handleSelectChange}
-						/>
-					</Grid>
-					<Grid item xs={12} sm={12} md={8} lg={8}>
+					
+					{
+						shouldShow ? (
+							<Grid item xs={12} sm={12} md={4} lg={4}>
+								<RepresentativeForm
+									steps={steps}
+									activeStep={activeStep}
+									handleBack={handleBack}
+									handleNext={handleNext}
+									handleReset={handleReset}
+									constituencies={constituencies}
+									constituencyId={constituencyId}
+									subCounties={subCounties}
+									subCountyId={subCountyId}
+									parishes={parishes}
+									parishId={parishId}
+									villages={villages}
+									villageId={villageId}
+									firstName={firstName}
+									lastName={lastName}
+									contact={contact}
+									nin={nin}
+									handleSwitch={handleSwitch}
+									switchToggle={switchToggle}
+									errors={errors}
+									classes={classes}
+									onSubmit={onSubmit}
+									formHasError={formHasError}
+									onChange={onChange}
+									handleSelectChange={handleSelectChange}
+								/>
+							</Grid>
+						) : ''
+					}
+					<Grid item {...gridProps}>
 						<Paper className={classNames(classes.paper, 'json-tree')}>
 							<TabbedPage
 								treeComponent={() => (
@@ -129,8 +144,7 @@ RepresentativeComponent.propTypes = {
 	firstName: PropTypes.string.isRequired,
 	lastName: PropTypes.string.isRequired,
 	contact: PropTypes.string.isRequired,
-	email: PropTypes.string.isRequired,
-	dateOfBirth: PropTypes.string.isRequired
+	nin: PropTypes.string.isRequired
 };
 
 export default RepresentativeComponent;

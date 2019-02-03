@@ -154,8 +154,7 @@ RepresentativeForm.propTypes = {
 	firstName: PropTypes.string.isRequired,
 	lastName: PropTypes.string.isRequired,
 	contact: PropTypes.string.isRequired,
-	email: PropTypes.string.isRequired,
-	dateOfBirth: PropTypes.string.isRequired
+	nin: PropTypes.string.isRequired
 };
 
 export default RepresentativeForm;

@@ -12,6 +12,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Link } from 'react-router-dom';
 import drawerStyles from '../../../static/styles/drawerStyles';
+import { Authenticate } from '../../privateRoute';
 
 const navigationMain = [
 	{ label: 'Constituencies', icon: 'public', link: '/constituencies' },
@@ -20,9 +21,11 @@ const navigationMain = [
 	{ label: 'Villages', icon: 'my_location', link: '/villages' }
 ];
 
+const user = Authenticate.userDetails();
+
 const navigationPeople = [
 	{ label: 'Representatives', icon: 'people', link: '/representatives' },
-	{ label: 'Other Users', icon: 'group_add', link: '/users' }
+	(user.isSuperUser ? { label: 'Other Users', icon: 'group_add', link: '/users' } : null)
 ];
 
 const NavDrawer = (props) => {
@@ -62,17 +65,20 @@ const NavDrawer = (props) => {
 			<Divider />
 			<List>
 				{navigationPeople.map(menu => (
-					<ListItem
-						className={pathname === menu.link ? 'active' : ''}
-						button
-						key={menu.label}
-						component={Link}
-						to={menu.link}
-						replace
-					>
-						<Icon>{menu.icon}</Icon>
-						<ListItemText primary={menu.label} />
-					</ListItem>
+					menu ?
+						(
+							<ListItem
+								className={pathname === menu.link ? 'active' : ''}
+								button
+								key={menu.label}
+								component={Link}
+								to={menu.link}
+								replace
+							>
+								<Icon>{menu.icon}</Icon>
+								<ListItemText primary={menu.label} />
+							</ListItem>
+						) : null
 				))}
 			</List>
 		</Drawer>
