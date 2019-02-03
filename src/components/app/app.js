@@ -7,6 +7,7 @@ import Constituency from '../../containers/constituencies';
 import Parish from '../../containers/parishes';
 import Representative from '../../containers/representatives';
 import SubCounty from '../../containers/subCounties';
+import User from '../../containers/users';
 import Village from '../../containers/villages';
 import Home from '../home';
 import NavBar from '../reusable/navBar';
@@ -16,7 +17,7 @@ import CustomizedSnackBar from '../reusable/snackBar';
 class App extends React.Component {
 	
 	componentWillMount() {
-		// onbeforeunload = this.onUnLoad;
+		onbeforeunload = this.onUnLoad;
 	}
 	
 	componentWillUnmount() {
@@ -43,6 +44,7 @@ class App extends React.Component {
 			case 'representatives':
 				return Representative;
 			case 'users':
+				return User;
 			default:
 				return Home;
 		}

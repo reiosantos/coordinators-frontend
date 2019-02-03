@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import { randomNumber } from '../../../utils';
 
 const StepOneForm = (
 	{
@@ -31,7 +32,7 @@ const StepOneForm = (
 				{
 					constituencies.map(
 						rep => (
-							<MenuItem key={rep.id} value={rep.id}>
+							<MenuItem key={randomNumber()} value={rep.id}>
 								{rep.constituencyName}
 							</MenuItem>
 						)
@@ -60,7 +61,7 @@ const StepOneForm = (
 				{
 					subCounties.map(
 						rep => (
-							<MenuItem key={rep.id} value={rep.id}>
+							<MenuItem key={randomNumber()} value={rep.id}>
 								{rep.subCountyName}
 							</MenuItem>
 						)
@@ -86,7 +87,7 @@ const StepOneForm = (
 				{
 					parishes.map(
 						rep => (
-							<MenuItem key={rep.id} value={rep.id}>
+							<MenuItem key={randomNumber()} value={rep.id}>
 								{rep.parishName}
 							</MenuItem>
 						)
@@ -112,7 +113,7 @@ const StepOneForm = (
 				{
 					villages.map(
 						rep => (
-							<MenuItem key={rep.id} value={rep.id}>
+							<MenuItem key={randomNumber()} value={rep.id}>
 								{rep.villageName}
 							</MenuItem>
 						)

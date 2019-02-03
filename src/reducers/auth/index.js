@@ -12,6 +12,7 @@ const authReducer = (state = initialState, action) => {
 
 	const { user, message, errors } = action.payload || {};
 	const { contact, name, username } = user || state.user;
+	
 	const userObject = {
 		phoneNumber: contact,
 		fullNames: name,
@@ -23,7 +24,7 @@ const authReducer = (state = initialState, action) => {
 			return {
 				...state,
 				user: userObject,
-				error: errors,
+				error: message || errors,
 				success: message
 			};
 

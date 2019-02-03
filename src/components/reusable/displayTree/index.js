@@ -32,9 +32,13 @@ const flattenData = (passedData) => {
 					if (!Array.isArray(obj[element]) &&
 						!element.endsWith('Name') &&
 						!element.match(/^[A-Z]/)) {
-						delete obj[element];
+						if (element.endsWith('Id')) {
+							delete obj[element];
+						}
 					}
 				});
+				delete obj.createdAt;
+				delete obj.updatedAt;
 				newArray.push(obj);
 			}
 		}

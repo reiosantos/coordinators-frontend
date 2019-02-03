@@ -133,7 +133,7 @@ class Village extends React.Component {
 		this.setState({
 			alert: {
 				message: 'Are you sure you want to delete this Record?',
-				title: 'Delete Parishes'
+				title: 'Delete Villages'
 			},
 			shouldOpenAlert: true,
 			deleteId: value

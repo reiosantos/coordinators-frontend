@@ -4,7 +4,7 @@ export const validateUsername = username => (!!username && username.length > 2
 	? ''
 	: 'This field should be at-least 3 characters and above');
 
-export const validatePassword = password => (password.match(/^(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,15})$/)
+export const validatePassword = password => (password.match(/^(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,})$/)
 	? ''
 	: 'Password should contain at-least one letter and one digit. It should be at-least 6 characters long');
 

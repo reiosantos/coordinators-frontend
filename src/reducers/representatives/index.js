@@ -21,7 +21,10 @@ const representativeReducer = (initial = state, action) => {
 		
 		case ACTION_TYPE.SEARCH_REPRESENTATIVE:
 			response = initial.originalRepresentatives.filter(
-				record => record.representativeName.toLowerCase().includes(representatives.toLowerCase())
+				record => (
+					record.firstName.toLowerCase().includes(representatives.toLowerCase()) ||
+					record.lastName.toLowerCase().includes(representatives.toLowerCase())
+				)
 			);
 			return { ...initial, representatives: response };
 		default:
