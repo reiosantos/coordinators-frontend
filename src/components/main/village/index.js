@@ -19,7 +19,7 @@ import TabbedPage from '../../reusable/tabs/tabbedPage';
 const VillageComponent = (props) => {
 	const {
 		villages, parishes, classes, villageName, errors, formHasError, handleSelectChange,
-		headers, onChange, onClickDelete, onClickEdit, onSubmit, representativeId,
+		headers, onChange, onClickDelete, onClickEdit, onSubmit, representativeId, isAvailable,
 		representatives, tableBody, handleSwitch, switchToggle, onSearch, parishId
 	} = props;
 	
@@ -46,6 +46,7 @@ const VillageComponent = (props) => {
 							onSubmit={onSubmit}
 							parishes={parishes}
 							parishId={parishId}
+							isAvailable={isAvailable}
 							representativeId={representativeId}
 							formHasError={formHasError}
 							onChange={onChange}
@@ -97,7 +98,8 @@ VillageComponent.propTypes = {
 	onClickDelete: PropTypes.func.isRequired,
 	onClickEdit: PropTypes.func.isRequired,
 	handleSwitch: PropTypes.func.isRequired,
-	onSearch: PropTypes.func.isRequired
+	onSearch: PropTypes.func.isRequired,
+	isAvailable: PropTypes.func.isRequired
 };
 
 export default VillageComponent;

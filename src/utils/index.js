@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import uuidv4 from 'uuid/v4';
 import progressAction from '../actions/progress';
 import snackAction from '../actions/snack';
 import { AUTH_TOKEN, PROPERTY_USER } from '../constants';
@@ -11,6 +12,8 @@ export const formatDate = (dateStr) => {
 	const date = new Date(dateStr);
 	return moment(date).format('YYYY-MM-DD');
 };
+
+export const randomNumber = () => uuidv4();
 
 export const addToken = () => {
 	const TOKEN = localStorage.getItem(AUTH_TOKEN);
@@ -61,14 +64,10 @@ export const dispatchError = (error, dispatch) => {
 
 export const functionPlaceholder = () => () => {};
 
-export const isRepresentativeAvailable = (representative = {}) => {
-	const {
-		SubCounty, Constituency, Parish, Village
-	} = representative;
-	if (!SubCounty && !Constituency && !Parish && !Village) return true;
-	if (!SubCounty && !Constituency && !Parish) return true;
-	if (Village) {
-		if (Village.representativeId === representative.id) return false;
-	}
-	return !(SubCounty || Constituency || Parish);
+export const isRepresentativeAvailable = (representative = {}, villages = []) => {
+	const { SubCounty, Constituency, Parish } = representative;
+	
+	const result = villages.filter(village => village.representativeId === representative.id);
+
+	return !(SubCounty || Constituency || Parish || result.length > 0);
 };

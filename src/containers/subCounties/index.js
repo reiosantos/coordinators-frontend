@@ -9,11 +9,12 @@ import {
 	fetchSubCountyAction,
 	searchSubCounties
 } from '../../actions/subCounties';
+import { fetchVillageAction } from '../../actions/villages';
 import SubCountyComponent from '../../components/main/subCounty';
 import AlertDialog from '../../components/reusable/alert';
 import { API } from '../../constants';
 import constituencyStyles from '../../static/styles/constituencyStyles';
-import { formatUrl } from '../../utils';
+import { formatUrl, isRepresentativeAvailable } from '../../utils';
 import { validateUsername } from '../../utils/validators';
 
 class SubCounty extends React.Component {
@@ -49,6 +50,7 @@ class SubCounty extends React.Component {
 		dispatch(fetchConstituencyAction());
 		dispatch(fetchRepresentativeAction());
 		dispatch(fetchSubCountyAction());
+		dispatch(fetchVillageAction());
 	}
 
 	onSubmit = (event) => {
@@ -174,6 +176,11 @@ class SubCounty extends React.Component {
 		dispatch(searchSubCounties(value));
 	};
 	
+	isAvailable = (representative) => {
+		const { villages } = this.props;
+		return isRepresentativeAvailable(representative, villages);
+	};
+	
 	render() {
 		const {
 			classes, representatives, constituencies, subCounties
@@ -218,6 +225,7 @@ class SubCounty extends React.Component {
 					constituencyId={constituencyId}
 					tableBody={body}
 					headers={headers}
+					isAvailable={this.isAvailable}
 					handleSwitch={this.handleSwitch}
 					handleSelectChange={this.handleSelectChange}
 					onSubmit={this.onSubmit}
@@ -237,19 +245,25 @@ SubCounty.propTypes = {
 	representatives: PropTypes.arrayOf(PropTypes.shape()),
 	constituencies: PropTypes.arrayOf(PropTypes.shape()),
 	subCounties: PropTypes.arrayOf(PropTypes.shape()),
+	villages: PropTypes.arrayOf(PropTypes.shape()),
 	dispatch: PropTypes.func.isRequired
 };
 
 SubCounty.defaultProps = {
 	representatives: [],
 	constituencies: [],
-	subCounties: []
+	subCounties: [],
+	villages: []
 };
 
-const mapStateToProps = ({ representativeReducer, constituencyReducer, subCountyReducer }) => ({
+const mapStateToProps = ({
+	representativeReducer, constituencyReducer, subCountyReducer, villageReducer
+}) => ({
 	representatives: representativeReducer.representatives,
 	constituencies: constituencyReducer.constituencies,
-	subCounties: subCountyReducer.subCounties
+	subCounties: subCountyReducer.subCounties,
+	villages: villageReducer.villages
+	
 });
 
 export default connect(mapStateToProps)(withStyles(constituencyStyles)(SubCounty));

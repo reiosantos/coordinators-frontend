@@ -20,7 +20,7 @@ const ParishComponent = (props) => {
 	const {
 		subCounties, parishes, classes, parishName, errors, formHasError, handleSelectChange,
 		headers, onChange, onClickDelete, onClickEdit, onSubmit, representativeId,
-		representatives, tableBody, handleSwitch, switchToggle, onSearch, subCountyId
+		representatives, tableBody, handleSwitch, switchToggle, onSearch, subCountyId, isAvailable
 	} = props;
 	
 	return (
@@ -43,6 +43,7 @@ const ParishComponent = (props) => {
 							errors={errors}
 							classes={classes}
 							parishName={parishName}
+							isAvailable={isAvailable}
 							onSubmit={onSubmit}
 							subCounties={subCounties}
 							subCountyId={subCountyId}
@@ -97,7 +98,8 @@ ParishComponent.propTypes = {
 	onClickDelete: PropTypes.func.isRequired,
 	onClickEdit: PropTypes.func.isRequired,
 	handleSwitch: PropTypes.func.isRequired,
-	onSearch: PropTypes.func.isRequired
+	onSearch: PropTypes.func.isRequired,
+	isAvailable: PropTypes.func.isRequired
 };
 
 export default ParishComponent;

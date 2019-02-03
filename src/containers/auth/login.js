@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { authAction } from '../../actions/auth';
 import LogInForm from '../../components/main/auth/loginForm';
+import { Authenticate } from '../../components/privateRoute';
 import CircularIntegration from '../../components/reusable/progress';
 import CustomizedSnackBar from '../../components/reusable/snackBar';
 import { API } from '../../constants';
@@ -32,6 +33,9 @@ class LogIn extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = this.initialState;
+		if (Authenticate.isAuthenticated()) {
+			window.location.assign('/');
+		}
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {

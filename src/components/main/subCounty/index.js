@@ -19,7 +19,7 @@ import TabbedPage from '../../reusable/tabs/tabbedPage';
 const SubCountyComponent = (props) => {
 	const {
 		subCounties, constituencies, classes, subCountyName, errors, formHasError, handleSelectChange,
-		headers, onChange, onClickDelete, onClickEdit, onSubmit, representativeId,
+		headers, onChange, onClickDelete, onClickEdit, onSubmit, representativeId, isAvailable,
 		representatives, tableBody, handleSwitch, switchToggle, onSearch, constituencyId
 	} = props;
 	
@@ -41,6 +41,7 @@ const SubCountyComponent = (props) => {
 							handleSwitch={handleSwitch}
 							switchToggle={switchToggle}
 							errors={errors}
+							isAvailable={isAvailable}
 							classes={classes}
 							subCountyName={subCountyName}
 							onSubmit={onSubmit}
@@ -97,7 +98,8 @@ SubCountyComponent.propTypes = {
 	onClickDelete: PropTypes.func.isRequired,
 	onClickEdit: PropTypes.func.isRequired,
 	handleSwitch: PropTypes.func.isRequired,
-	onSearch: PropTypes.func.isRequired
+	onSearch: PropTypes.func.isRequired,
+	isAvailable: PropTypes.func.isRequired
 };
 
 export default SubCountyComponent;

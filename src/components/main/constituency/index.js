@@ -20,7 +20,7 @@ const ConstituencyComponent = (props) => {
 	const {
 		constituencies, classes, constituencyName, errors, formHasError, handleSelectChange,
 		headers, onChange, onClickDelete, onClickEdit, onSubmit, representativeId,
-		representatives, tableBody, handleSwitch, switchToggle, onSearch
+		representatives, tableBody, handleSwitch, switchToggle, onSearch, isAvailable
 	} = props;
 	
 	return (
@@ -41,6 +41,7 @@ const ConstituencyComponent = (props) => {
 							handleSwitch={handleSwitch}
 							switchToggle={switchToggle}
 							errors={errors}
+							isAvailable={isAvailable}
 							classes={classes}
 							constituencyName={constituencyName}
 							onSubmit={onSubmit}
@@ -93,7 +94,8 @@ ConstituencyComponent.propTypes = {
 	onClickDelete: PropTypes.func.isRequired,
 	onClickEdit: PropTypes.func.isRequired,
 	handleSwitch: PropTypes.func.isRequired,
-	onSearch: PropTypes.func.isRequired
+	onSearch: PropTypes.func.isRequired,
+	isAvailable: PropTypes.func.isRequired
 };
 
 export default ConstituencyComponent;

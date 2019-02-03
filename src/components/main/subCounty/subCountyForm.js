@@ -13,12 +13,13 @@ import Edit from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { isRepresentativeAvailable } from '../../../utils';
+import * as Utils from '../../../utils';
 
 const SubCountyForm = (
 	{
 		errors, classes, subCountyName, representativeId, switchToggle, handleSwitch, constituencies,
-		representatives, constituencyId, formHasError, handleSelectChange, onChange, onSubmit
+		representatives, constituencyId, formHasError, handleSelectChange, onChange, onSubmit,
+		isAvailable
 	}
 ) => (
 	<Paper className={classes.paper}>
@@ -71,7 +72,7 @@ const SubCountyForm = (
 					{
 						constituencies.map(
 							rep => (
-								<MenuItem key={rep.id} value={rep.id}>
+								<MenuItem key={Utils.randomNumber()} value={rep.id}>
 									{rep.constituencyName}
 								</MenuItem>
 							)
@@ -102,15 +103,15 @@ const SubCountyForm = (
 							(rep) => {
 								if (representativeId) {
 									return (
-										<MenuItem key={rep.id} value={rep.id}>
+										<MenuItem key={Utils.randomNumber()} value={rep.id}>
 											{`${rep.firstName} ${rep.lastName} - From - ${rep.Village.villageName}`}
 										</MenuItem>
 									);
 								}
-								const representative = isRepresentativeAvailable(rep);
+								const representative = isAvailable(rep);
 								if (representative) {
 									return (
-										<MenuItem key={rep.id} value={rep.id}>
+										<MenuItem key={Utils.randomNumber()} value={rep.id}>
 											{`${rep.firstName} ${rep.lastName} - From - ${rep.Village.villageName}`}
 										</MenuItem>
 									);
@@ -155,7 +156,8 @@ SubCountyForm.propTypes = {
 	handleSelectChange: PropTypes.func.isRequired,
 	onChange: PropTypes.func.isRequired,
 	onSubmit: PropTypes.func.isRequired,
-	handleSwitch: PropTypes.func.isRequired
+	handleSwitch: PropTypes.func.isRequired,
+	isAvailable: PropTypes.func.isRequired
 };
 
 export default SubCountyForm;

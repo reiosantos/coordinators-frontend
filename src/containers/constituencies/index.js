@@ -8,11 +8,12 @@ import {
 	fetchConstituencyAction, searchConstituencies
 } from '../../actions/contituencies';
 import { fetchRepresentativeAction } from '../../actions/representatives';
+import { fetchVillageAction } from '../../actions/villages';
 import AlertDialog from '../../components/reusable/alert';
 import ConstituencyComponent from '../../components/main/constituency';
 import { API } from '../../constants';
 import constituencyStyles from '../../static/styles/constituencyStyles';
-import { formatUrl } from '../../utils';
+import { formatUrl, isRepresentativeAvailable } from '../../utils';
 import { validateUsername } from '../../utils/validators';
 
 class Constituency extends React.Component {
@@ -45,6 +46,7 @@ class Constituency extends React.Component {
 		const { dispatch } = this.props;
 		dispatch(fetchConstituencyAction());
 		dispatch(fetchRepresentativeAction());
+		dispatch(fetchVillageAction());
 	}
 
 	onSubmit = (event) => {
@@ -164,6 +166,11 @@ class Constituency extends React.Component {
 		dispatch(searchConstituencies(value));
 	};
 	
+	isAvailable = (representative) => {
+		const { villages } = this.props;
+		return isRepresentativeAvailable(representative, villages);
+	};
+	
 	render() {
 		const { classes, representatives, constituencies } = this.props;
 		const {
@@ -202,6 +209,7 @@ class Constituency extends React.Component {
 					constituencies={constituencies}
 					tableBody={body}
 					headers={headers}
+					isAvailable={this.isAvailable}
 					handleSwitch={this.handleSwitch}
 					handleSelectChange={this.handleSelectChange}
 					onSubmit={this.onSubmit}
@@ -220,17 +228,20 @@ Constituency.propTypes = {
 	classes: PropTypes.shape().isRequired,
 	representatives: PropTypes.arrayOf(PropTypes.shape()),
 	constituencies: PropTypes.arrayOf(PropTypes.shape()),
+	villages: PropTypes.arrayOf(PropTypes.shape()),
 	dispatch: PropTypes.func.isRequired
 };
 
 Constituency.defaultProps = {
 	representatives: [],
-	constituencies: []
+	constituencies: [],
+	villages: []
 };
 
-const mapStateToProps = ({ representativeReducer, constituencyReducer }) => ({
+const mapStateToProps = ({ representativeReducer, constituencyReducer, villageReducer }) => ({
 	representatives: representativeReducer.representatives,
-	constituencies: constituencyReducer.constituencies
+	constituencies: constituencyReducer.constituencies,
+	villages: villageReducer.villages
 });
 
 export default connect(mapStateToProps)(withStyles(constituencyStyles)(Constituency));

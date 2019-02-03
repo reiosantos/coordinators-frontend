@@ -14,7 +14,7 @@ import VillageComponent from '../../components/main/village';
 import AlertDialog from '../../components/reusable/alert';
 import { API } from '../../constants';
 import constituencyStyles from '../../static/styles/constituencyStyles';
-import { formatUrl } from '../../utils';
+import { formatUrl, isRepresentativeAvailable } from '../../utils';
 import { validateUsername } from '../../utils/validators';
 
 class Village extends React.Component {
@@ -173,6 +173,11 @@ class Village extends React.Component {
 		dispatch(searchVillages(value));
 	};
 	
+	isAvailable = (representative) => {
+		const { villages } = this.props;
+		return isRepresentativeAvailable(representative, villages);
+	};
+	
 	render() {
 		const {
 			classes, representatives, parishes, villages
@@ -186,7 +191,7 @@ class Village extends React.Component {
 		
 		const body = villages.map((record) => {
 			const { Representative, Parish } = record;
-			const representativeName = Representative
+			const representativeName = Representative && typeof Representative === 'object'
 				? `${Representative.firstName} ${Representative.lastName}`
 				: undefined;
 			
@@ -214,6 +219,7 @@ class Village extends React.Component {
 					parishId={parishId}
 					tableBody={body}
 					headers={headers}
+					isAvailable={this.isAvailable}
 					handleSwitch={this.handleSwitch}
 					handleSelectChange={this.handleSelectChange}
 					onSubmit={this.onSubmit}

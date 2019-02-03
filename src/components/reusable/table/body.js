@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableBody from '@material-ui/core/TableBody';
+import * as Utils from '../../../utils';
 import Row from './row';
 
 const Body = ({
@@ -13,7 +14,7 @@ const Body = ({
 				: (
 					<Row
 						isEditing={isEditing}
-						key={row[1]}
+						key={Utils.randomNumber()}
 						onClickDelete={onClickDelete}
 						onClickEdit={onClickEdit}
 						row={row}
